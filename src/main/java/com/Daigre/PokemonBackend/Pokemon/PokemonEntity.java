@@ -3,6 +3,7 @@ package com.Daigre.PokemonBackend.Pokemon;
 import com.Daigre.PokemonBackend.Moves.MoveEntity;
 import com.Daigre.PokemonBackend.Types.TypeEntity;
 import com.Daigre.PokemonBackend.locations.LocationEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import javax.persistence.Id;
 
@@ -18,11 +19,14 @@ public class PokemonEntity {
     private String name;
 
     @ManyToMany
+    @JsonManagedReference
     private List<TypeEntity> types;
 
     @ManyToMany
+    @JsonManagedReference
     private List<MoveEntity> moves;
 
     @ManyToMany
+    @JsonManagedReference
     private List<LocationEntity> locations;
 }

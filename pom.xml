@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.Daigre</groupId>
-	<artifactId>PokemonBackend</artifactId>
+	<artifactId>pokemonAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>PokemonBackend</name>
-	<description>Pokemon Backend project for Spring Boot</description>
+	<name>pokemonAPI</name>
+	<description>Pokemon API project for Spring Boot</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -55,7 +55,7 @@
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
-
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -64,6 +64,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>

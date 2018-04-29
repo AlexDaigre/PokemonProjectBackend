@@ -18,6 +18,8 @@ public class PokemonEntity {
     @Id
     private String name;
 
+    private String image;
+
     @ManyToMany
     @JsonManagedReference
     private List<TypeEntity> types;

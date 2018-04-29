@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PokemonService {
@@ -54,24 +52,35 @@ public class PokemonService {
 //        return pokemonRepo.findByMoves_NameAndTypes_Name(moveName, typeName);
 //    }
 
-    public List<PokemonEntity> findByQuery (String typeName, String moveName, String locationName){
-        List<PokemonEntity> pokemonWithType = pokemonRepo.findByTypes_Name(typeName);
-        List<PokemonEntity> pokemonWithMove = pokemonRepo.findByMoves_Name(moveName);
-        List<PokemonEntity> pokemonWithLocation = pokemonRepo.findByLocations_Name(locationName);
+    public List<PokemonEntity> findByQuery (String[] typeNames, String[] moveNames, String[] locationNames){
+        List<PokemonEntity> pokemonWithType = new ArrayList<>();
+        for(String typeName : typeNames){
+            pokemonWithType = pokemonArrayUnion(pokemonWithType, pokemonRepo.findByTypes_Name(typeName));
+        }
 
-        if (!locationName.equals("null") && !moveName.equals("null") && !typeName.equals("null")){
+        List<PokemonEntity> pokemonWithMove = new ArrayList<>();
+        for(String moveName : moveNames){
+            pokemonWithMove = pokemonArrayUnion(pokemonWithMove, pokemonRepo.findByMoves_Name(moveName));
+        }
+
+        List<PokemonEntity> pokemonWithLocation = new ArrayList<>();
+        for(String locationName : locationNames){
+            pokemonWithLocation = pokemonArrayUnion(pokemonWithLocation, pokemonRepo.findByLocations_Name(locationName));
+        }
+
+        if (!(locationNames.length == 0) && !(moveNames.length == 0) && !(typeNames.length == 0)){
             return pokemonArrayIntersection(pokemonArrayIntersection(pokemonWithType, pokemonWithMove),pokemonWithLocation);
-        }else if (!locationName.equals("null") && !moveName.equals("null") && typeName.equals("null")){
+        }else if (!(locationNames.length == 0) && !(moveNames.length == 0) && (typeNames.length == 0)){
             return pokemonArrayIntersection(pokemonWithMove, pokemonWithLocation);
-        }else if (!locationName.equals("null") && moveName.equals("null") && !typeName.equals("null")){
+        }else if (!(locationNames.length == 0) && (moveNames.length == 0) && !(typeNames.length == 0)){
             return pokemonArrayIntersection(pokemonWithType, pokemonWithLocation);
-        }else if (locationName.equals("null") && !moveName.equals("null") && !typeName.equals("null")){
+        }else if ((locationNames.length == 0) && !(moveNames.length == 0) && !(typeNames.length == 0)){
             return pokemonArrayIntersection(pokemonWithType, pokemonWithMove);
-        }else if (locationName.equals("null") && moveName.equals("null") && !typeName.equals("null")){
+        }else if ((locationNames.length == 0) && (moveNames.length == 0) && !(typeNames.length == 0)){
             return pokemonWithType;
-        }else if (!locationName.equals("null") && moveName.equals("null") && typeName.equals("null")){
+        }else if (!(locationNames.length == 0) && (moveNames.length == 0) && (typeNames.length == 0)){
             return pokemonWithLocation;
-        }else if (locationName.equals("null") && !moveName.equals("null") && typeName.equals("null")){
+        }else if ((locationNames.length == 0) && !(moveNames.length == 0) && (typeNames.length == 0)){
             return pokemonWithMove;
         }
         return Lists.newArrayList(findAll());
@@ -87,7 +96,15 @@ public class PokemonService {
                 }
             }
         }
-
         return resultingList;
+    }
+
+    private List<PokemonEntity> pokemonArrayUnion(List<PokemonEntity> listOne, List<PokemonEntity> listTwo){
+        Set<PokemonEntity> set = new HashSet<PokemonEntity>();
+
+        set.addAll(listOne);
+        set.addAll(listTwo);
+
+        return new ArrayList<PokemonEntity>(set);
     }
 }

@@ -29,4 +29,12 @@ public class PokemonEntity {
     @ManyToMany
     @JsonManagedReference
     private List<LocationEntity> locations;
+
+    public boolean equals(PokemonEntity pokemonEntity){
+        if(this.getName().equals(pokemonEntity.getName())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

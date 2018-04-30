@@ -44,7 +44,8 @@ public class PokemonController {
 //        return pokemonService.findByMoveNameAndTypeName(moveName, typeName);
 //    }
 
-   @GetMapping("query/{typeName}+{moveName}+{locationName}")
+    @CrossOrigin
+    @GetMapping("query/{typeName}+{moveName}+{locationName}")
     public List<PokemonEntity> getPokemonQuery(@PathVariable(value = "moveName") String moveName, @PathVariable(value = "typeName") String typeName, @PathVariable(value = "locationName") String locationName){
         String[] typeNames = typeName.equals("null") ? new String[0] : typeName.split("-");
         String[] moveNames = moveName.equals("null") ? new String[0] : moveName.split("-");
